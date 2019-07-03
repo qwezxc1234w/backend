@@ -2,6 +2,7 @@ package ftc.shift.sample.repositories;
 
 import ftc.shift.sample.exception.NotFoundException;
 import ftc.shift.sample.models.Book;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.Map;
  * Реализиция, хранящая все данные в памяти приложения
  */
 @Repository
+@ConditionalOnProperty(name = "use.database", havingValue = "false")
 public class InMemoryBookRepository implements BookRepository {
   /**
    * Ключ - имя пользователя, значение - все книги, которые есть у пользователя
