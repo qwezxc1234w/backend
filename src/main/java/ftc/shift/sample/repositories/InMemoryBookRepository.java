@@ -16,103 +16,103 @@ import java.util.Map;
 @Repository
 @ConditionalOnProperty(name = "use.database", havingValue = "false")
 public class InMemoryBookRepository implements BookRepository {
-  /**
-   * Ключ - имя пользователя, значение - все книги, которые есть у пользователя
-   */
-  private Map<String, Map<String, Book>> bookCache = new HashMap<>();
+    /**
+     * Ключ - имя пользователя, значение - все книги, которые есть у пользователя
+     */
+    private Map<String, Map<String, Book>> bookCache = new HashMap<>();
 
-  public InMemoryBookRepository() {
-    // Заполним репозиторий тестовыми данными
-    // В тестовых данных существует всего 3 пользователя: UserA / UserB / UserC
+    public InMemoryBookRepository() {
+        // Заполним репозиторий тестовыми данными
+        // В тестовых данных существует всего 3 пользователя: UserA / UserB / UserC
 
-    bookCache.put("UserA", new HashMap<>());
-    bookCache.get("UserA").put("1", new Book("1", "Название 1", "Автор Авторович", 12,
-            Collections.singletonList("Фантастика")));
-    bookCache.get("UserA").put("2", new Book("2", "Название 2", "Автор Писателевич", 48,
-            Collections.singletonList("Детектив")));
+        bookCache.put("UserA", new HashMap<>());
+        bookCache.get("UserA").put("1", new Book("1", "Название 1", "Автор Авторович", 12,
+                Collections.singletonList("Фантастика")));
+        bookCache.get("UserA").put("2", new Book("2", "Название 2", "Автор Писателевич", 48,
+                Collections.singletonList("Детектив")));
 
-    bookCache.put("UserB", new HashMap<>());
-    bookCache.get("UserB").put("3", new Book("3", "Название 3", "Писатель Авторович", 24,
-            Collections.singletonList("Киберпанк")));
+        bookCache.put("UserB", new HashMap<>());
+        bookCache.get("UserB").put("3", new Book("3", "Название 3", "Писатель Авторович", 24,
+                Collections.singletonList("Киберпанк")));
 
-    bookCache.put("UserC", new HashMap<>());
-  }
-
-  @Override
-  public Book fetchBook(String userId, String bookId) {
-    if (!bookCache.containsKey(userId)) {
-      // Пользователь не найден
-      throw new NotFoundException();
+        bookCache.put("UserC", new HashMap<>());
     }
 
-    Map<String, Book> userBooks = bookCache.get(userId);
+    @Override
+    public Book fetchBook(String userId, String bookId) {
+        if (!bookCache.containsKey(userId)) {
+            // Пользователь не найден
+            throw new NotFoundException();
+        }
 
-    if (!userBooks.containsKey(bookId)) {
-      // У пользователя не найдена книга
-      throw new NotFoundException();
+        Map<String, Book> userBooks = bookCache.get(userId);
+
+        if (!userBooks.containsKey(bookId)) {
+            // У пользователя не найдена книга
+            throw new NotFoundException();
+        }
+
+        return userBooks.get(bookId);
     }
 
-    return userBooks.get(bookId);
-  }
+    @Override
+    public Book updateBook(String userId, String bookId, Book book) {
+        if (!bookCache.containsKey(userId)) {
+            // Пользователь не найден
+            throw new NotFoundException();
+        }
 
-  @Override
-  public Book updateBook(String userId, String bookId, Book book) {
-    if (!bookCache.containsKey(userId)) {
-      // Пользователь не найден
-      throw new NotFoundException();
+        Map<String, Book> userBooks = bookCache.get(userId);
+
+        if (!userBooks.containsKey(bookId)) {
+            // У пользователя не найдена книга
+            throw new NotFoundException();
+        }
+
+        book.setId(bookId);
+        userBooks.put(bookId, book);
+        return book;
     }
 
-    Map<String, Book> userBooks = bookCache.get(userId);
+    @Override
+    public void deleteBook(String userId, String bookId) {
+        if (!bookCache.containsKey(userId)) {
+            // Пользователь не найден
+            throw new NotFoundException();
+        }
 
-    if (!userBooks.containsKey(bookId)) {
-      // У пользователя не найдена книга
-      throw new NotFoundException();
+        Map<String, Book> userBooks = bookCache.get(userId);
+
+        if (!userBooks.containsKey(bookId)) {
+            // У пользователя не найдена книга
+            throw new NotFoundException();
+        }
+
+        bookCache.remove(bookId);
     }
 
-    book.setId(bookId);
-    userBooks.put(bookId, book);
-    return book;
-  }
+    @Override
+    public Book createBook(String userId, Book book) {
+        if (!bookCache.containsKey(userId)) {
+            // Пользователь не найден
+            throw new NotFoundException();
+        }
 
-  @Override
-  public void deleteBook(String userId, String bookId) {
-    if (!bookCache.containsKey(userId)) {
-      // Пользователь не найден
-      throw new NotFoundException();
+        Map<String, Book> userBooks = bookCache.get(userId);
+
+        // Плохой способ генерирования случайных идентификаторов, использовать только для примеров
+        book.setId(String.valueOf(System.currentTimeMillis()));
+        userBooks.put(book.getId(), book);
+        return book;
     }
 
-    Map<String, Book> userBooks = bookCache.get(userId);
+    @Override
+    public Collection<Book> getAllBooks(String userId) {
+        if (!bookCache.containsKey(userId)) {
+            // Пользователь не найден
+            throw new NotFoundException();
+        }
 
-    if (!userBooks.containsKey(bookId)) {
-      // У пользователя не найдена книга
-      throw new NotFoundException();
+        return bookCache.get(userId).values();
     }
-
-    bookCache.remove(bookId);
-  }
-
-  @Override
-  public Book createBook(String userId, Book book) {
-    if (!bookCache.containsKey(userId)) {
-      // Пользователь не найден
-      throw new NotFoundException();
-    }
-
-    Map<String, Book> userBooks = bookCache.get(userId);
-
-    // Плохой способ генерирования случайных идентификаторов, использовать только для примеров
-    book.setId(String.valueOf(System.currentTimeMillis()));
-    userBooks.put(book.getId(), book);
-    return book;
-  }
-
-  @Override
-  public Collection<Book> getAllBooks(String userId) {
-    if (!bookCache.containsKey(userId)) {
-      // Пользователь не найден
-      throw new NotFoundException();
-    }
-
-    return bookCache.get(userId).values();
-  }
 }
