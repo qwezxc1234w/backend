@@ -20,12 +20,15 @@ import java.util.List;
 @Repository
 @ConditionalOnProperty(name = "use.database", havingValue = "true")
 public class DatabaseBookRepository implements BookRepository {
-
-    @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+    private BookExtractor bookExtractor;
 
     @Autowired
-    private BookExtractor bookExtractor;
+    public DatabaseBookRepository(NamedParameterJdbcTemplate jdbcTemplate,
+                                  BookExtractor bookExtractor) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.bookExtractor = bookExtractor;
+    }
 
     @PostConstruct
     public void initialize() {

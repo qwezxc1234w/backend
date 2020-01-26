@@ -12,9 +12,12 @@ import java.util.Collection;
 @RestController
 public class BooksController {
     private static final String BOOKS_PATH = "/api/books";
+    private BookService service;
 
     @Autowired
-    private BookService service;
+    public BooksController(BookService service) {
+        this.service = service;
+    }
 
     /**
      * Добавление новой книги
