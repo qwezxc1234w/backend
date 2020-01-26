@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "/api/v001/books/",
+			"name": "/api/books/",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -17,7 +17,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8081/api/v001/books/",
+					"raw": "http://localhost:8081/api/books/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -25,7 +25,6 @@
 					"port": "8081",
 					"path": [
 						"api",
-						"v001",
 						"books",
 						""
 					]
@@ -35,7 +34,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v001/books/{id}",
+			"name": "/api/books/{id}",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -46,7 +45,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8081/api/v001/books/2",
+					"raw": "http://localhost:8081/api/books/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -54,7 +53,6 @@
 					"port": "8081",
 					"path": [
 						"api",
-						"v001",
 						"books",
 						"2"
 					]
@@ -64,7 +62,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v001/books/{id}",
+			"name": "/api/books/{id}",
 			"request": {
 				"method": "PATCH",
 				"header": [
@@ -84,7 +82,7 @@
 					"raw": "{\n    \"name\": \"Новое название\",\n    \"author\": \"И автор новый\",\n    \"pages\": 12,\n    \"isAvailable\": false,\n    \"genre\": [\n        \"Фантастика\",\n        \"Да и жанры изменились\"\n    ]\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/v001/books/2",
+					"raw": "http://localhost:8081/api/books/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -92,7 +90,6 @@
 					"port": "8081",
 					"path": [
 						"api",
-						"v001",
 						"books",
 						"2"
 					]
@@ -102,7 +99,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v001/books/{id}",
+			"name": "/api/books/{id}",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -122,7 +119,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/v001/books/1",
+					"raw": "http://localhost:8081/api/books/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -130,7 +127,6 @@
 					"port": "8081",
 					"path": [
 						"api",
-						"v001",
 						"books",
 						"1"
 					]
@@ -140,7 +136,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v001/books/{id}",
+			"name": "/api/books/{id}",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -160,7 +156,7 @@
 					"raw": "{\n    \"name\": \"Название 123234234234\",\n    \"author\": \"Автор Авторович\",\n    \"pages\": 12,\n    \"isAvailable\": false,\n    \"genre\": [\n        \"Фантастика\",\n        \"Новый жанр\"\n    ]\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/v001/books",
+					"raw": "http://localhost:8081/api/books",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -168,7 +164,6 @@
 					"port": "8081",
 					"path": [
 						"api",
-						"v001",
 						"books"
 					]
 				},
