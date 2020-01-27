@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @RestController
 public class BooksController {
-    private static final String BOOKS_PATH = "/api/books";
+    private static final String BOOKS_PATH = "/api/v001/books";
     private BookService service;
 
     @Autowired
