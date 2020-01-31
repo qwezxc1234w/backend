@@ -10,7 +10,6 @@ public interface RoomRepository {
     List<Room> getAllRooms();
     Room fetchRoom(String roomId);
     Room createRoom(Room room);
-    void addUserInRoom(String roomId, User user);
-    List<User> getUsersInRoom(String roomId);
+    void increaseRoomSize(String roomId);
     boolean isRoomFull(String roomId);
 }

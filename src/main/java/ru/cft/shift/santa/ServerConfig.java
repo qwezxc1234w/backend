@@ -31,9 +31,9 @@ public class ServerConfig {
     private Connector getHttpConnector() {
         Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
         connector.setScheme("http");
-        connector.setPort(8083);
+        connector.setPort(8080);
         connector.setSecure(false);
-        connector.setRedirectPort(8082);
+        connector.setRedirectPort(8081);
         return connector;
     }
 }

@@ -27,6 +27,7 @@ public class RoomExtractor implements ResultSetExtractor<List<Room>> {
             room.setId(rs.getString("ROOM_ID"));
             room.setName(rs.getString("NAME"));
             room.setCapacity(rs.getInt("CAPACITY"));
+            room.setSize(rs.getInt("SIZE"));
             rooms.put(roomId, room);
         }
         return new ArrayList<>(rooms.values());

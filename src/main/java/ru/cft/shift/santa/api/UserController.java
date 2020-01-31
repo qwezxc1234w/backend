@@ -1,6 +1,7 @@
 package ru.cft.shift.santa.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.cft.shift.santa.models.User;
@@ -29,7 +30,7 @@ public class UserController {
     public ResponseEntity<User> createUser(
             @RequestBody User user) {
         User result = service.createUser(user);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @GetMapping(USER_PATH)
@@ -48,5 +49,12 @@ public class UserController {
             @PathVariable String userId) {
         User user = service.provideUser(userId);
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping(USER_PATH + "/randomroom")
+    public ResponseEntity<User> createUserInRandomRoom(
+            @RequestBody User user) {
+        User result = service.createUserInRandomRoom(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 }

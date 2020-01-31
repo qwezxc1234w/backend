@@ -2,11 +2,13 @@ package ru.cft.shift.santa.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.cft.shift.santa.exception.RoomIsFullException;
 import ru.cft.shift.santa.models.Room;
 import ru.cft.shift.santa.models.User;
 import ru.cft.shift.santa.repositories.RoomRepository;
 import ru.cft.shift.santa.repositories.UserRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +33,7 @@ public class RoomService {
     }
 
     public List<User> provideUsersInRoom(String roomId) {
-        return roomRepository.getUsersInRoom(roomId);
+        return userRepository.getUsersInRoom(roomId);
     }
 
     public Room createRoom(Room room) {
@@ -39,11 +41,20 @@ public class RoomService {
     }
 
     public void addUserInRoom(String roomId, User user) {
-        roomRepository.addUserInRoom(roomId, user);
+        if (!roomRepository.isRoomFull(roomId)) {
+            userRepository.addUserInRoom(roomId, user);
+            roomRepository.increaseRoomSize(roomId);
+        } else {
+            throw new RoomIsFullException();
+        }
         if (roomRepository.isRoomFull(roomId)) {
-            List<User> users = provideUsersInRoom(roomId);
-            for (int i = 0; i < users.size(); ++i)
-                userRepository.appointRecipient(users.get(i).getId(), users.get((i + 1) % users.size()).getId());
+            List<User> usersInRoom = provideUsersInRoom(roomId);
+            Collections.shuffle(usersInRoom);
+            for (int i = 0; i < usersInRoom.size(); ++i)
+                userRepository.appointRecipient(
+                        usersInRoom.get(i).getId(),
+                        usersInRoom.get((i + 1) % usersInRoom.size()).getId()
+                );
         }
     }
 }

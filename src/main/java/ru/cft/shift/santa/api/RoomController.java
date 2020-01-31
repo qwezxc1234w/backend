@@ -1,6 +1,7 @@
 package ru.cft.shift.santa.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.cft.shift.santa.models.Room;
@@ -24,7 +25,7 @@ public class RoomController {
     public ResponseEntity<Room> createRoom(
             @RequestBody Room room) {
         Room result = service.createRoom(room);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @GetMapping(PATH)
@@ -52,6 +53,6 @@ public class RoomController {
             @PathVariable String roomId,
             @RequestBody User user) {
         service.addUserInRoom(roomId, user);
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 }

@@ -11,11 +11,14 @@ public class Room {
 
     private int capacity;
 
-    public Room(String name, String id, int capacity, List<User> users) {
+    private int size;
+
+    public Room(String name, String id, int capacity, int size, List<User> users) {
         this.users = users;
         this.name = name;
         this.id = id;
         this.capacity = capacity;
+        this.size = size;
     }
 
     public Room() {}
@@ -50,5 +53,13 @@ public class Room {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }
