@@ -1,18 +1,14 @@
 package ru.cft.shift.santa.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.cft.shift.santa.exception.NotFoundException;
 import ru.cft.shift.santa.models.Room;
-import ru.cft.shift.santa.models.User;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -29,9 +25,9 @@ public class DatabaseRoomRepository implements RoomRepository {
 
     @PostConstruct
     public void initialize() {
-        String createGenerateRoomsIdSequenceSql = "create sequence IF NOT EXISTS ROOMS_ID_GENERATOR";
-        String createRoomsTableSql = "create table IF NOT EXISTS  ROOMS (" +
-                "ROOM_ID  VARCHAR(64) default ROOMS_ID_GENERATOR.nextval," +
+        String createGenerateRoomsIdSequenceSql = "CREATE SEQUENCE IF NOT EXISTS ROOMS_ID_GENERATOR";
+        String createRoomsTableSql = "CREATE TABLE IF NOT EXISTS ROOMS (" +
+                "ROOM_ID VARCHAR(64) DEFAULT ROOMS_ID_GENERATOR.nextval," +
                 "NAME VARCHAR(64)," +
                 "CAPACITY INTEGER," +
                 "SIZE INTEGER" +
@@ -42,7 +38,7 @@ public class DatabaseRoomRepository implements RoomRepository {
 
     @Override
     public boolean isRoomFull(String roomId) {
-        String sql = "select CAPACITY<=SIZE from ROOMS WHERE ROOMS.ROOM_ID=:roomId";
+        String sql = "SELECT CAPACITY <= SIZE FROM ROOMS WHERE ROOMS.ROOM_ID=:roomId";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("roomId", roomId);
         Boolean result = jdbcTemplate.queryForObject(sql, params, Boolean.class);
@@ -61,14 +57,15 @@ public class DatabaseRoomRepository implements RoomRepository {
 
     @Override
     public List<Room> getAllRooms() {
-        String sql = "select ROOM_ID, NAME, CAPACITY, SIZE from ROOMS";
+        String sql = "SELECT ROOM_ID, NAME, CAPACITY, SIZE FROM ROOMS";
         return jdbcTemplate.query(sql, roomExtractor);
     }
 
     @Override
     public Room fetchRoom(String roomId) {
-        String sql = "select ROOM_ID, NAME, CAPACITY, SIZE " +
-                "from ROOMS where ROOM_ID=:roomId";
+        String sql = "SELECT ROOM_ID, NAME, CAPACITY, SIZE " +
+                "FROM ROOMS " +
+                "WHERE ROOM_ID=:roomId";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("roomId", roomId);
         List<Room> rooms = jdbcTemplate.query(sql, params, roomExtractor);
@@ -81,7 +78,7 @@ public class DatabaseRoomRepository implements RoomRepository {
     @Override
     @SuppressWarnings("ConstantConditions")
     public Room createRoom(Room room) {
-        String insertUserSql = "insert into ROOMS (NAME, CAPACITY, SIZE) values (:name, :capacity, 0)";
+        String insertUserSql = "INSERT INTO ROOMS (NAME, CAPACITY, SIZE) VALUES (:name, :capacity, 0)";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("name", room.getName())
                 .addValue("capacity", room.getCapacity());

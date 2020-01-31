@@ -20,12 +20,6 @@ public class UserController {
         this.service = service;
     }
 
-    /**
-     * Добавление нового пользователя
-     *
-     * @param user - Данные нового пользователя (Имя, Пожелания, Кому дарит )
-     * @return Сохранённый пользователь с установленным {@link User#getId()}
-     */
     @PostMapping(USER_PATH)
     public ResponseEntity<User> createUser(
             @RequestBody User user) {
@@ -38,11 +32,6 @@ public class UserController {
         List<User> result = service.provideAllUsers();
         return ResponseEntity.ok(result);
     }
-
-    /**
-     * Получение пользователя с указанным идентификатором
-     */
-
 
     @GetMapping(USER_PATH + "/{userId}")
     public ResponseEntity<User> readUser(

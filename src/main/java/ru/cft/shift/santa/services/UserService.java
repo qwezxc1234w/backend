@@ -3,13 +3,11 @@ package ru.cft.shift.santa.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.cft.shift.santa.exception.NotFoundException;
-import ru.cft.shift.santa.exception.RoomIsFullException;
 import ru.cft.shift.santa.models.Room;
 import ru.cft.shift.santa.models.User;
 import ru.cft.shift.santa.repositories.RoomRepository;
 import ru.cft.shift.santa.repositories.UserRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service

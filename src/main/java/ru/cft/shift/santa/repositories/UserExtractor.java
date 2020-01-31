@@ -17,7 +17,6 @@ public class UserExtractor implements ResultSetExtractor<List<User>> {
     @Override
     public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
         Map<String, User> users = new HashMap<>();
-
         while (rs.next()) {
             String userId = rs.getString("USER_ID");
             User user;

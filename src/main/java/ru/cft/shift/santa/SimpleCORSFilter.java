@@ -6,10 +6,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Конфигурация для добавления CORS заголовков
- * (Без необходимости не редактировать)
- */
 @Component
 public class SimpleCORSFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -19,11 +15,5 @@ public class SimpleCORSFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         chain.doFilter(req, res);
-    }
-
-    public void init(FilterConfig filterConfig) {
-    }
-
-    public void destroy() {
     }
 }

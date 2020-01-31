@@ -10,7 +10,6 @@ import ru.cft.shift.santa.repositories.UserRepository;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class RoomService {

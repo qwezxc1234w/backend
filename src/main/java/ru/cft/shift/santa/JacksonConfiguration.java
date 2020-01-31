@@ -11,18 +11,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-/**
- * Конфигурация для отправки / получения сообщений в формате JSON
- * (Без необходимости не редактировать)
- */
 @Configuration
 public class JacksonConfiguration implements WebMvcConfigurer {
-
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         for (HttpMessageConverter<?> httpConverter : converters) {
             if (httpConverter instanceof MappingJackson2HttpMessageConverter) {
-
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
                 mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
