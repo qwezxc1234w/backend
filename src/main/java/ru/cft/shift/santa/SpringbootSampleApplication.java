@@ -25,7 +25,7 @@ public class SpringbootSampleApplication extends SpringBootServletInitializer {
 
     private static void startH2Server() {
         try {
-            Server h2Server = Server.createTcpServer().start();
+            Server h2Server = Server.createTcpServer("-tcpAllowOthers").start();
             if (h2Server.isRunning(true)) {
                 log.info("H2 server was started and is running.");
             } else {
