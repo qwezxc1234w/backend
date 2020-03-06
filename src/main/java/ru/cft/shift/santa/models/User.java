@@ -13,5 +13,4 @@ public class User {
     private String name;
     private String wishes;
     private User recipient;
-    private Room room;
 }

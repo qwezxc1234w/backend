@@ -31,7 +31,6 @@ public class UserExtractor implements ResultSetExtractor<List<User>> {
                     null,
                     rs.getString("RECIPIENT_NAME"),
                     rs.getString("RECIPIENT_WISHES"),
-                    null,
                     null
             ));
             users.put(userId, user);

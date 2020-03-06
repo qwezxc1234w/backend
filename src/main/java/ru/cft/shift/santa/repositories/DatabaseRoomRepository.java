@@ -32,7 +32,12 @@ public class DatabaseRoomRepository implements RoomRepository {
                 "CAPACITY INTEGER," +
                 "SIZE INTEGER" +
                 ");";
+        String createRoomUserManyToManyTableSql = "CREATE TABLE IF NOT EXISTS USERS_ROOMS (" +
+                "ROOM_ID VARCHAR(64)," +
+                "USER_ID VARCHAR(64)" +
+                ");";
         jdbcTemplate.update(createGenerateRoomsIdSequenceSql, new MapSqlParameterSource());
+        jdbcTemplate.update(createRoomUserManyToManyTableSql, new MapSqlParameterSource());
         jdbcTemplate.update(createRoomsTableSql, new MapSqlParameterSource());
     }
 

@@ -29,7 +29,6 @@ public class DatabaseUserRepository implements UserRepository {
         String createUsersTableSql = "CREATE TABLE IF NOT EXISTS USERS (" +
                 "USER_ID  VARCHAR(64) DEFAULT USERS_ID_GENERATOR.nextval," +
                 "RECIPIENT_ID VARCHAR(64)," +
-                "ROOM_ID VARCHAR(64)," +
                 "NAME VARCHAR(64)," +
                 "WISHES VARCHAR(64)" +
                 ");";
@@ -75,16 +74,14 @@ public class DatabaseUserRepository implements UserRepository {
     @Override
     @SuppressWarnings("ConstantConditions")
     public User createUser(User user) {
-        String insertUserSql = "INSERT INTO USERS (RECIPIENT_ID, ROOM_ID, NAME, WISHES) " +
+        String insertUserSql = "INSERT INTO USERS (RECIPIENT_ID, NAME, WISHES) " +
                 "VALUES (" +
                     ":recipientId, " +
-                    ":roomId, " +
                     ":name, " +
                     ":wishes" +
                 ")";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("recipientId", null)
-                .addValue("roomId", null)
                 .addValue("name", user.getName())
                 .addValue("wishes", user.getWishes());
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
@@ -105,9 +102,11 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public void addUserInRoom(String roomId, User user) {
-        String sql = "UPDATE USERS " +
-                "SET ROOM_ID=:roomId " +
-                "WHERE USER_ID=:userId";
+        String sql = "INSERT INTO USERS_ROOMS (ROOM_ID, USER_ID) " +
+                "VALUES (" +
+                    ":roomId, " +
+                    ":userId" +
+                ")";
         MapSqlParameterSource bookParams = new MapSqlParameterSource()
                 .addValue("roomId", roomId)
                 .addValue("userId", user.getId());
@@ -116,7 +115,7 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public List<User> getUsersInRoom(String roomId) {
-        String sql = "SELECT USER_ID, NAME, WISHES, RECIPIENT_NAME, RECIPIENT_WISHES " +
+        String sql = "SELECT USERS.USER_ID, NAME, WISHES, RECIPIENT_NAME, RECIPIENT_WISHES " +
                 "FROM USERS " +
                 "LEFT JOIN " +
                 "(SELECT " +
@@ -125,7 +124,9 @@ public class DatabaseUserRepository implements UserRepository {
                     "WISHES AS RECIPIENT_WISHES " +
                 "FROM USERS) AS RECIPIENTS " +
                 "ON USERS.RECIPIENT_ID = RECIPIENTS.RECIPIENT_ID " +
-                "WHERE USERS.ROOM_ID=:roomId";
+                "INNER JOIN USERS_ROOMS " +
+                "ON USERS.USER_ID = USERS_ROOMS.USER_ID " +
+                "WHERE USERS_ROOMS.ROOM_ID=:roomId";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("roomId", roomId);
         List<User> users = jdbcTemplate.query(sql, params, userExtractor);
